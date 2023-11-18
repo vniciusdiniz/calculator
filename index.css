@@ -1,0 +1,92 @@
+html, body {
+    font-size: 62.5%;
+    margin: 0;
+}
+
+.container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.calculator{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 16px;
+    border-radius: 16px;
+
+    width: 400px;
+    height: 600px;
+    background-color: gray;
+    padding: 32px;
+}
+
+.display{
+    display: flex;
+    justify-content: flex-end;
+    background-color: blanchedalmond;
+    width: 100%;
+    border-radius: 8px;
+    height: 25%;
+    
+}
+
+.expression{
+    font-size: 3rem;
+    padding: 8px;
+    font-weight: 300;
+    color: gray
+}
+
+.result{
+    align-self: flex-end;
+    padding: 8px;
+    font-size: 8rem;
+    font-weight: 500;
+}
+
+
+.clear, .delete{
+    width: 47.6%;
+    background-color: palevioletred;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+}
+
+.delete{
+    background-color: blueviolet;
+}
+
+.clear:hover{
+    cursor: pointer;
+}
+
+.delete:hover{
+    cursor: pointer;
+}
+
+.equal, .digitN, .operation{
+    background-color: blanchedalmond;
+    width: 22%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 5rem;
+    border-radius: 4px;
+}
+
+.operation:hover{
+ cursor: pointer;   
+}
+
+.digitN:hover{
+    cursor: pointer;
+}
+
+.equal:hover{
+    cursor: pointer;
+}
