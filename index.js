@@ -24,73 +24,103 @@ const addEl = document.querySelector("#add")
 
 const equalEL = document.querySelector("#equal")
 
-let firstNumber = "";
-let secondNumber = "";
-let currentOperation = "";
-let currentNumber = 0;
+let fila = []
+let currentNumber = "";
+let currentDigit = "";
+let buildingNumber = true;
 
   document.querySelectorAll('.digitN').forEach(item => {
     item.addEventListener('click', event => {
-        if (!currentNumber){
-            firstNumber+= item.textContent;
-        } else {
-            secondNumber+= item.textContent;
-        }
-
+        currentDigit = item.textContent;
+        currentNumber += currentDigit;
+        buildingNumber = true;
         displayExpression();
     })
   });
 
   document.querySelectorAll('.operation').forEach(item => {
     item.addEventListener('click', event => {
-        currentNumber = 1;
-        currentOperation = item.textContent;
-
+        fila.push(currentNumber);
+        fila.push(item.textContent);
+        currentNumber = "";
+  
+        buildingNumber = false;
         displayExpression();
     })
   });
 
   equalEL.addEventListener('click', () => {
-    let result = calc(firstNumber, secondNumber, currentOperation);
+    fila.push(currentNumber);
+    currentNumber = "";
+    buildingNumber = false;
+    let result = calc();
     resultEl.textContent = result;
 
     addEqualToExpression();
     displayResult(result);
-
-    firstNumber = result;
-    secondNumber = "";
-    currentOperation = ""
+    currentNumber = result;
   });
 
   clearEl.addEventListener('click', () => {
-        firstNumber = "";
-        secondNumber = "";
-        currentOperation = "";
-        currentNumber = 0;
-        displayExpression();
+        fila = [];
+        currentNumber = "";
+        currentDigit = "";
+        buildingNumber = true;
+
+        displayExpression(1);
         displayResult(0);
   });
 
-  deleteEl.addEventListener('click', () => {
-    displayExpression
-  });
+//   deleteEl.addEventListener('click', () => {
+  
+//   });
 
 function roundResult(number) {
     return Math.round(number * 1000) / 1000
 }
 
-function calc(n1, n2, op){
-    switch(op){
-        case "+" : return roundResult(n1*1+n2*1);
-        case "/" : return roundResult(n1/n2);
-        case "-" : return roundResult(n1-n2);
-        case "x" : return roundResult(n1*n2);
-        default: return null;
-    }
+function calc(){
+
+    let result = 0;
+    while(fila.length > 1){
+        let n1 = fila.shift();
+        let op = fila.shift();
+        let n2 = fila.shift();
+        switch(op){
+            case "+": 
+                    result = roundResult(n1*1+n2*1);
+                break;
+            case "/": 
+                    result = roundResult(n1/n2);
+                break;
+            case "-":
+                    result = roundResult(n1-n2);
+                break;
+            case "x":
+                    result = roundResult(n1*n2);
+                break;
+            default: 
+                    result = null;
+        }
+
+        fila.unshift(result);
+    }//while
+    return fila[0];
 }
 
-function displayExpression(elem){
-    expressionEl.textContent = `${firstNumber} ${currentOperation} ${secondNumber}`;
+function displayExpression(clearExp){
+
+    if(buildingNumber){
+        expressionEl.textContent += currentDigit;
+        if (clearExp){
+            expressionEl.textContent = "";  
+        }
+    } else if (!buildingNumber){
+        expressionEl.textContent = "";      
+        for (let elem of fila){
+            expressionEl.textContent += `${elem} `;
+        }
+    }
 }
 
 function addEqualToExpression(){
